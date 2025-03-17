@@ -1,0 +1,44 @@
+server:
+  port: 9001
+service:
+  leaf:
+    url: http://127.0.0.1:1001
+mysql:
+  drools:
+    host: mysql
+    port: 3306
+    db: github
+    username: root
+    password: password
+redis:
+  drools:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: password
+
+spring:
+  application:
+    name: drools-rule
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${mysql.drools.username}
+    url: jdbc:mysql://${mysql.drools.host}:${mysql.drools.port}/${mysql.drools.db}?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+    type: com.zaxxer.hikari.HikariDataSource
+    password: ${mysql.drools.password}
+  redis:
+    database: ${redis.drools.database}
+    host: ${redis.drools.host}
+    port: ${redis.drools.port}
+    password: ${redis.drools.password}
+
+# 自定义脚手架配置
+custom:
+  method:
+    custom:
+      # 方法出入参日志打印
+      log:
+        enabled: true
+        level: INFO
