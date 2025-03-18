@@ -33,13 +33,19 @@ public class DroolsRuleController {
 
     @PostMapping
     @MethodCustomLog(msg = "新增规则")
-    public RestResult<DroolsRulesAddResponse> add(@RequestBody @Validated DroolsRulesAddRequest request) {
+    public RestResult<DroolsRulesCmdResponse> add(@RequestBody @Validated DroolsRulesAddRequest request) {
         return droolsRulesService.add(request);
     }
 
     @PutMapping
     @MethodCustomLog(msg = "更新规则")
-    public RestResult<DroolsRulesAddResponse> edit(@RequestBody @Validated DroolsRulesEditRequest request) {
+    public RestResult<DroolsRulesCmdResponse> edit(@RequestBody @Validated DroolsRulesEditRequest request) {
         return droolsRulesService.edit(request);
+    }
+
+    @DeleteMapping("/{ruleId}")
+    @MethodCustomLog(msg = "删除规则")
+    public RestResult<DroolsRulesCmdResponse> del(@Validated DroolsRulesDelRequest request) {
+        return droolsRulesService.del(request);
     }
 }

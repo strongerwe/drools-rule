@@ -29,6 +29,7 @@
 ## 测试示例
 
 #### 新增规则
+
 ```shell
     curl --location 'http://127.0.0.1:9001/drools/rules' \
     --header 'Content-Type: application/json' \
@@ -42,7 +43,22 @@
     }'
 ```
 
+- 测试drl规则代码
+
+```drools
+package test
+global java.lang.StringBuilder rResult
+rule "rule_test"
+    when
+        eval(true)
+    then
+        System.out.println("规则：rule_test222222触发...");
+        rResult.append("rule_test22222");
+    end
+```
+
 #### 更新规则
+
 ```shell
     curl --location --request PUT 'http://127.0.0.1:9001/drools/rules' \
     --header 'Content-Type: application/json' \
@@ -58,6 +74,7 @@
 ```
 
 #### 执行规则
+
 ```shell
     curl --location 'http://127.0.0.1:9001/drools/core/run.do' \
     --header 'Content-Type: application/json' \
@@ -65,15 +82,17 @@
         "ruleId": 2503179001001
     }'
 ```
-> 规则执行结果：
+
+- 规则执行结果：
+
 ```json
     {
-      "code": "0",
-      "message": "success",
-      "data": {
-        "resultInfo": "rule_test22222"
-      },
-      "frameBizExecute": null,
-      "frameRequestId": null
-    }
+  "code": "0",
+  "message": "success",
+  "data": {
+    "resultInfo": "rule_test22222"
+  },
+  "frameBizExecute": null,
+  "frameRequestId": null
+}
 ```

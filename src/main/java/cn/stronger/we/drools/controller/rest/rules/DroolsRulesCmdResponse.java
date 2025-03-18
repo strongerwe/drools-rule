@@ -13,13 +13,13 @@ import lombok.experimental.Accessors;
  * @class DroolsRulesAddResponse.class
  * @department Platform R&D
  * @date 2025/3/17
- * @desc do what?
+ * @desc 操作response
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class DroolsRulesAddResponse implements SuperResponse {
+public class DroolsRulesCmdResponse implements SuperResponse {
     /**
      * 创建成功返回：规则ID
      */

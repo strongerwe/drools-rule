@@ -4,6 +4,7 @@ package cn.stronger.we.drools.service;
 import cn.stronger.we.commons.framework.RestResult;
 import cn.stronger.we.commons.framework.response.AdminPageResponse;
 import cn.stronger.we.drools.controller.rest.rules.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -20,9 +21,11 @@ public interface DroolsRulesService {
 
     RestResult<AdminPageResponse<DroolsRulesView>> page(DroolsRulesQueryRequest request);
 
-    RestResult<DroolsRulesAddResponse> add(DroolsRulesAddRequest request);
+    RestResult<DroolsRulesCmdResponse> add(DroolsRulesAddRequest request);
 
-    RestResult<DroolsRulesAddResponse> edit(DroolsRulesEditRequest request);
+    RestResult<DroolsRulesCmdResponse> edit(DroolsRulesEditRequest request);
+
+    RestResult<DroolsRulesCmdResponse> del(DroolsRulesDelRequest request);
 
     default Long newRuleId(){
         SecureRandom secureRandom = new SecureRandom();

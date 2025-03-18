@@ -4,6 +4,7 @@ import cn.stronger.we.commons.framework.RestResult;
 import cn.stronger.we.commons.framework.response.AdminPageResponse;
 import cn.stronger.we.drools.controller.rest.rules.*;
 import cn.stronger.we.drools.service.cmd.rules.DroolsRulesAddCmdExe;
+import cn.stronger.we.drools.service.cmd.rules.DroolsRulesDelCmdExe;
 import cn.stronger.we.drools.service.cmd.rules.DroolsRulesEditCmdExe;
 import cn.stronger.we.drools.service.cmd.rules.DroolsRulesPageQryExe;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class DroolsRulesServiceImpl implements DroolsRulesService {
     private DroolsRulesEditCmdExe droolsRulesEditCmdExe;
     @Resource
     private DroolsRulesPageQryExe droolsRulesPageQryExe;
+    @Resource
+    private DroolsRulesDelCmdExe droolsRulesDelCmdExe;
 
     @Override
     public RestResult<AdminPageResponse<DroolsRulesView>> page(DroolsRulesQueryRequest request) {
@@ -34,13 +37,17 @@ public class DroolsRulesServiceImpl implements DroolsRulesService {
     }
 
     @Override
-    public RestResult<DroolsRulesAddResponse> add(DroolsRulesAddRequest request) {
+    public RestResult<DroolsRulesCmdResponse> add(DroolsRulesAddRequest request) {
         return droolsRulesAddCmdExe.execute(request);
     }
 
     @Override
-    public RestResult<DroolsRulesAddResponse> edit(DroolsRulesEditRequest request) {
+    public RestResult<DroolsRulesCmdResponse> edit(DroolsRulesEditRequest request) {
         return droolsRulesEditCmdExe.execute(request);
     }
 
+    @Override
+    public RestResult<DroolsRulesCmdResponse> del(DroolsRulesDelRequest request) {
+        return droolsRulesDelCmdExe.execute(request);
+    }
 }

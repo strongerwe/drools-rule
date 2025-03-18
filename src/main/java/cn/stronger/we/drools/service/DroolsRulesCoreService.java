@@ -24,6 +24,13 @@ public interface DroolsRulesCoreService {
     void addOrUpdateRule(DroolsRulesDTO droolsRulesDTO);
 
     /**
+     * 删除规则
+     *
+     * @param rule rule
+     */
+    void deleteDroolsRule(DroolsRulesDTO rule);
+
+    /**
      * 执行规则
      *
      * @param request request

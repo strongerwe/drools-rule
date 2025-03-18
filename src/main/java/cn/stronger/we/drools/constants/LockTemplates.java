@@ -13,4 +13,5 @@ public interface LockTemplates {
 
     String ADD_RULE_LOCK="lock:rules:add:{ruleName}";
     String EDIT_RULE_LOCK="lock:rules:edit:{ruleName}";
+    String DEL_RULE_LOCK="lock:rules:del:{ruleName}";
 }

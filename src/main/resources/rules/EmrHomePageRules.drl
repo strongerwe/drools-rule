@@ -1,0 +1,45 @@
+package rules
+
+import cn.stronger.we.drools.drools.rule.DroolsRulesTemplate
+
+/* 校验：缺项控制 */
+rule "checkEmptyRule"
+    salience 100
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkEmpty())
+    then
+        $tp.addSource("empty");
+end
+
+/* 校验：一致控制 */
+rule "checkEqualsRule"
+    salience 90
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkEquals())
+    then
+        $tp.addSource("equals");
+end
+
+/* 字段扫描循环体 isEnd(): size++ and 替换下一个fields */
+rule "checkRule"
+    salience 1
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkSize())
+    then
+        $tp.resetFields();
+        update($tp);
+end
+
+rule "printResult"
+    salience 0
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(!isEnd())
+    then
+        System.out.println("[DroolsRulesTemplate]|规则跑完最总得分："+$tp.getScore());
+end

@@ -34,6 +34,7 @@ public class DroolsRulesGatewayImpl extends ServiceImpl<DroolsRulesMapper, Drool
                 .eq(null != query.getRuleId(), DroolsRules::getRuleId, query.getRuleId())
                 .eq(StringTools.isNotEmpty(query.getRuleClass()), DroolsRules::getRuleClass, query.getRuleClass())
                 .eq(StringTools.isNotEmpty(query.getKieBaseName()), DroolsRules::getKieBaseName, query.getKieBaseName())
+                .eq(DroolsRules::getIsDeleted, Boolean.FALSE)
                 .eq(StringTools.isNotEmpty(query.getKiePackageName()), DroolsRules::getKiePackageName, query.getKiePackageName());
         if (StringTools.isNotEmpty(query.getRuleName())) {
             lambdaQueryWrapper.nested(wrapper -> wrapper

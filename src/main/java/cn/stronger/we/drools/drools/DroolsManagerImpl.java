@@ -3,6 +3,7 @@ package cn.stronger.we.drools.drools;
 
 import cn.stronger.we.commons.framework.RestResult;
 import cn.stronger.we.commons.utils.StringTools;
+import cn.stronger.we.drools.constants.DroolsResultErrCode;
 import cn.stronger.we.drools.controller.rest.core.DroolsRulesRunResponse;
 import cn.stronger.we.drools.gateway.dto.DroolsRulesDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,6 @@ import java.util.List;
  * @date 2025/3/17
  * @desc do what?
  */
-@Component
 @Slf4j
 public class DroolsManagerImpl implements DroolsManager {
 
@@ -135,6 +135,9 @@ public class DroolsManagerImpl implements DroolsManager {
 
     @Override
     public RestResult<DroolsRulesRunResponse> fireRule(DroolsRulesDTO rule) {
+        if (!checkExistsKieBase(rule.getKieBaseName())) {
+            return RestResult.runFail(DroolsResultErrCode.DROOLS_RULE_NOT_RUNNING);
+        }
         KieSession kieSession = kieContainer.newKieSession(rule.getKieBaseName() + "-session");
         StringBuilder result = new StringBuilder();
         kieSession.setGlobal("rResult", result);

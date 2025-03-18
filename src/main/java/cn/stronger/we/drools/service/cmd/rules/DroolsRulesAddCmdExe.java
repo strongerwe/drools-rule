@@ -6,7 +6,7 @@ import cn.stronger.we.commons.validator.ParamCheck;
 import cn.stronger.we.drools.constants.DroolsResultErrCode;
 import cn.stronger.we.drools.constants.LockTemplates;
 import cn.stronger.we.drools.controller.rest.rules.DroolsRulesAddRequest;
-import cn.stronger.we.drools.controller.rest.rules.DroolsRulesAddResponse;
+import cn.stronger.we.drools.controller.rest.rules.DroolsRulesCmdResponse;
 import cn.stronger.we.drools.gateway.DroolsRulesGateway;
 import cn.stronger.we.drools.gateway.NewBeeIdGateway;
 import cn.stronger.we.drools.gateway.dto.DroolsRulesQry;
@@ -29,7 +29,7 @@ import java.util.List;
  * @desc do what?
  */
 @Component
-public class DroolsRulesAddCmdExe extends AbstractApiExe<DroolsRulesAddRequest, DroolsRulesAddResponse> {
+public class DroolsRulesAddCmdExe extends AbstractApiExe<DroolsRulesAddRequest, DroolsRulesCmdResponse> {
 
     @Resource
     private DroolsRulesGateway droolsRulesGateway;
@@ -41,14 +41,14 @@ public class DroolsRulesAddCmdExe extends AbstractApiExe<DroolsRulesAddRequest, 
     @Override
     @CusRedissonLock(keyTemplate = LockTemplates.ADD_RULE_LOCK, suffix = "#request.ruleName")
     @Transactional(rollbackFor = Exception.class)
-    public RestResult<DroolsRulesAddResponse> execute(DroolsRulesAddRequest request) {
+    public RestResult<DroolsRulesCmdResponse> execute(DroolsRulesAddRequest request) {
         validate(request);
         DroolsRules droolsRules = DroolsRulesCvt.cvtEntity(request);
         Long ruleId = newBeeIdGateway.newRuleId();
         droolsRules.setRuleId(ruleId);
         droolsRulesGateway.save(droolsRules);
         droolsRulesCoreService.addOrUpdateRule(DroolsRulesCvt.cvt(droolsRules));
-        return RestResult.success(new DroolsRulesAddResponse(ruleId));
+        return RestResult.success(new DroolsRulesCmdResponse(ruleId));
     }
 
     @Override

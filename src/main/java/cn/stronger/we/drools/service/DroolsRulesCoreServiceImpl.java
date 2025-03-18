@@ -37,6 +37,11 @@ public class DroolsRulesCoreServiceImpl implements DroolsRulesCoreService {
     }
 
     @Override
+    public void deleteDroolsRule(DroolsRulesDTO rule) {
+        droolsManager.deleteDroolsRule(rule);
+    }
+
+    @Override
     public RestResult<DroolsRulesRunResponse> fireRule(DroolsRulesRunRequest request) {
         DroolsRules byRuleId = droolsRulesGateway.getByRuleId(request.getRuleId());
         ParamCheck.notNull(byRuleId, DroolsResultErrCode.DROOLS_RULE_IS_EXISTS);

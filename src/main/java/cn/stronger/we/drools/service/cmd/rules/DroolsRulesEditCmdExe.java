@@ -6,7 +6,7 @@ import cn.stronger.we.commons.framework.RestResult;
 import cn.stronger.we.commons.validator.ParamCheck;
 import cn.stronger.we.drools.constants.DroolsResultErrCode;
 import cn.stronger.we.drools.constants.LockTemplates;
-import cn.stronger.we.drools.controller.rest.rules.DroolsRulesAddResponse;
+import cn.stronger.we.drools.controller.rest.rules.DroolsRulesCmdResponse;
 import cn.stronger.we.drools.controller.rest.rules.DroolsRulesEditRequest;
 import cn.stronger.we.drools.gateway.DroolsRulesGateway;
 import cn.stronger.we.drools.gateway.dto.DroolsRulesQry;
@@ -30,7 +30,7 @@ import java.util.List;
  * @desc do what?
  */
 @Component
-public class DroolsRulesEditCmdExe extends AbstractApiExe<DroolsRulesEditRequest, DroolsRulesAddResponse> {
+public class DroolsRulesEditCmdExe extends AbstractApiExe<DroolsRulesEditRequest, DroolsRulesCmdResponse> {
     @Resource
     private DroolsRulesGateway droolsRulesGateway;
     @Resource
@@ -39,13 +39,13 @@ public class DroolsRulesEditCmdExe extends AbstractApiExe<DroolsRulesEditRequest
     @Override
     @CusRedissonLock(keyTemplate = LockTemplates.EDIT_RULE_LOCK, suffix = "#request.ruleName")
     @Transactional(rollbackFor = Exception.class)
-    public RestResult<DroolsRulesAddResponse> execute(DroolsRulesEditRequest request) {
+    public RestResult<DroolsRulesCmdResponse> execute(DroolsRulesEditRequest request) {
         DroolsRules rules = droolsRulesGateway.getByRuleId(request.getRuleId());
         validate(request, rules);
         setFields(request, rules);
         droolsRulesGateway.updateById(rules);
         droolsRulesCoreService.addOrUpdateRule(DroolsRulesCvt.cvt(rules));
-        return RestResult.success(new DroolsRulesAddResponse(rules.getRuleId()));
+        return RestResult.success(new DroolsRulesCmdResponse(rules.getRuleId()));
     }
 
     public void setFields(DroolsRulesEditRequest request, DroolsRules rules) {

@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class DroolsRulesAddRequest extends AbstractAdminRequest<DroolsRulesAddResponse> {
+public class DroolsRulesAddRequest extends AbstractAdminRequest<DroolsRulesCmdResponse> {
 
     /**
      * 规则名称
