@@ -1,0 +1,58 @@
+package rules
+
+import cn.stronger.we.drools.core.template.DroolsRulesTemplate
+import cn.stronger.we.drools.core.DiscriminantModeEnums
+
+/* 校验：缺项控制 */
+rule "checkEmpty_Rule"
+    salience 100
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkEmpty())
+    then
+        $tp.processing(DiscriminantModeEnums.EMPTY.getMode());
+end
+
+/* 校验：一致控制 */
+rule "checkEquals_Rule"
+    salience 90
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkEquals())
+    then
+        $tp.processing(DiscriminantModeEnums.EQUALS.getMode());
+end
+
+/* 校验：长度校验 */
+rule "checkLength_Rule"
+    salience 80
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkLength())
+    then
+        $tp.processing(DiscriminantModeEnums.LENGTH.getMode());
+end
+
+/* 校验：长度校验 */
+rule "checkTime_Rule"
+    salience 70
+    no-loop true
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkTime())
+    then
+        $tp.processing(DiscriminantModeEnums.TIME.getMode());
+end
+
+/* 更新规则 */
+rule "updateCheck_Rule"
+    salience 1
+    enabled true
+    when
+        $tp: DroolsRulesTemplate(checkEnd())
+    then
+        update($tp);
+end

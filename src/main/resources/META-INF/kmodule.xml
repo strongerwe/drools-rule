@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
-    <kbase name="rules" packages="rules">
-        <ksession name="defaultKieSession" default="true"/>
+    <kbase name="template" packages="rules">
+        <ksession name="templateKieSession" default="false"/>
     </kbase>
 </kmodule>

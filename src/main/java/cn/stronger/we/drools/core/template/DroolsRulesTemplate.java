@@ -1,6 +1,6 @@
-package cn.stronger.we.drools.drools.rule;
+package cn.stronger.we.drools.core.template;
 
-
+import cn.stronger.we.drools.core.check.FieldsCheckDTO;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -8,44 +8,40 @@ import java.lang.reflect.Field;
 /**
  * @author qiang.w
  * @version release-1.0.0
- * @interface DroolsRulesTemplate.class
+ * @interface DroolsEmrRulesTemplate.class
  * @department Platform R&D
- * @date 2025/3/17
- * @desc 规则校验模版
+ * @date 2025/3/18
+ * @desc 病历规则模版
  */
 public interface DroolsRulesTemplate<T> {
 
+    /**
+     * 获取校验数据
+     *
+     * @return {@link T }
+     */
     T getData();
 
+    /**
+     * 获取比对数据
+     *
+     * @return {@link T }
+     */
     T getEqData();
 
+    /**
+     * 获取Clazz()
+     *
+     * @return {@link Class }<{@link T }>
+     */
     Class<T> getClazz();
 
     /**
-     * 加分
+     * 获取当前运行的check
      *
-     * @param type type
+     * @return {@link FieldsCheckDTO }
      */
-    void addSource(String type);
-
-    /**
-     * 更新比对字段
-     */
-    void resetFields();
-
-    /**
-     * 校验size
-     *
-     * @return boolean
-     */
-    boolean checkSize();
-
-    /**
-     * 是否结束
-     *
-     * @return boolean
-     */
-    boolean isEnd();
+    FieldsCheckDTO runningCheck();
 
     /**
      * 空值校验
@@ -73,32 +69,31 @@ public interface DroolsRulesTemplate<T> {
      *
      * @return boolean
      */
-    boolean checkTimeout();
+    boolean checkTime();
 
     /**
-     * 自定义校验
+     * 校验是否结束规则
      *
      * @return boolean
      */
-    boolean checkCustom();
+    boolean checkEnd();
 
     /**
-     * 获取得分
+     * 结果处理
      *
-     * @return {@link Integer }
+     * @param type type
      */
-    Integer getScore();
+    void processing(String type);
 
     /**
      * 根据字段名获取数据
      *
-     * @param fieldsName fieldsName
-     * @param data       data
+     * @param data data
      * @return {@link String }
      */
-    default String getDataByFieldsName(String fieldsName, T data) {
+    default String getDataByFieldsName(T data) {
         try {
-            Field field = ReflectionUtils.findField(getClazz(), fieldsName);
+            Field field = ReflectionUtils.findField(this.getClazz(), this.runningCheck().getField());
             assert field != null;
             ReflectionUtils.makeAccessible(field);
             return (String) field.get(data);
